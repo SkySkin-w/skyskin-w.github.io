@@ -7,7 +7,7 @@ on:
       - myblog
 
 env:
-  TZ: Asia/Guangzhou
+  TZ: Asia/Shanghai
 
 jobs:
   blog-cicd:
