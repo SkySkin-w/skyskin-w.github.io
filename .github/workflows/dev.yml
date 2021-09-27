@@ -1,14 +1,14 @@
 name: Blog CI/CD
 
 # 触发条件：在 push 到 myblog 分支后触发
-#on: push
+on: push
 #on:
 #  issues:
 #    types: [opened, reopened]
-on:
-  schedule:
-    # * is a special character in YAML so you have to quote this string
-    - cron:  '0/5 * * * *'
+#on:
+#  schedule:
+#    # * is a special character in YAML so you have to quote this string
+#    - cron:  '0/5 * * * *'
 
 #env:
 #  TZ: Asia/Shanghai
@@ -58,13 +58,13 @@ jobs:
       #把gitee代码仓库同步到github
     - name: Setup node
       # 设置 node.js 环境
-      if: ${{env.GITHUB_GITEE_TIME < 0}}
+      if: ${{env.GITHUB_GITEE_TIME > 0}}
       uses: actions/setup-node@v1
       with:
         node-version: '12.x'
 
     - name: Cache node modules
-      if: ${{env.GITHUB_GITEE_TIME < 0}}
+      if: ${{env.GITHUB_GITEE_TIME > 0}}
       # 设置包缓存目录，避免每次下载
       uses: actions/cache@v1
       with:
@@ -72,7 +72,7 @@ jobs:
         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
 
     - name: Install hexo dependencies
-      if: ${{env.GITHUB_GITEE_TIME < 0}}
+      if: ${{env.GITHUB_GITEE_TIME > 0}}
       # 下载 hexo-cli 脚手架及相关安装包
       run: |
         cd ./tempCloneDir/Test/
@@ -80,7 +80,7 @@ jobs:
         npm install
 
     - name: Generate files
-      if: ${{env.GITHUB_GITEE_TIME < 0}}
+      if: ${{env.GITHUB_GITEE_TIME > 0}}
       # 编译 markdown 文件
       run: |
         cd ./tempCloneDir/Test/
@@ -88,7 +88,7 @@ jobs:
         hexo generate
 
     - name: Deploy hexo blog
-      if: ${{env.GITHUB_GITEE_TIME < 0}}
+      if: ${{env.GITHUB_GITEE_TIME > 0}}
       env: 
         # Github 仓库
         #GITHUB_REPO: github.com/SkySkin-w/skyskin-w.github.io
@@ -109,6 +109,7 @@ jobs:
 #        git push --force --quiet "https://SkySkin-w:${{ secrets.CODING_TOKEN }}@$CODING_REPO" master:master
         
     - name: Mirror the Github organization repos to Gitee.
+      if: ${{env.GITHUB_GITEE_TIME > 0}}
       uses: Yikun/gitee-mirror-action@v0.01
       #代表我们用的仓库，不用同步
       with:
