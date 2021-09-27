@@ -59,7 +59,6 @@ jobs:
     - name: Setup node
       # 设置 node.js 环境
       if: ${{env.GITHUB_GITEE_TIME < 0}}
-      run: cd ./tempCloneDir/Test/
       uses: actions/setup-node@v1
       with:
         node-version: '12.x'
