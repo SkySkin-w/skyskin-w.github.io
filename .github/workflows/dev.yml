@@ -7,9 +7,9 @@ name: Blog CI/CD
 #    types: [opened, reopened]
 on:
   workflow_dispath:
-  schedule:
+#  schedule:
     # * is a special character in YAML so you have to quote this string
-    - cron:  '*/5 * * * *'
+#    - cron:  '*/5 * * * *'
 
 #env:
 #  TZ: Asia/Shanghai
