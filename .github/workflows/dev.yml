@@ -6,6 +6,7 @@ name: Blog CI/CD
 #  issues:
 #    types: [opened, reopened]
 on:
+  workflow_dispath:
   schedule:
     # * is a special character in YAML so you have to quote this string
     - cron:  '*/5 * * * *'
